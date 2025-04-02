@@ -1,0 +1,2 @@
+tokken = "8145663170:AAFk0wlKCl-Q3RSdQvkujnuDH0L1HtAFSHo"
+admin = [5502720862, ]
