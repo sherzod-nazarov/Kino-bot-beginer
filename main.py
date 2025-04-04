@@ -1,13 +1,15 @@
 from aiogram import Bot, Dispatcher
 from data.config import tokken, admin
 import asyncio
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
 from users.main import user_router
-from admin.main import admin_router
+# from admin.main import admin_router
 
-bot = Bot(token=tokken)
+bot = Bot(token=tokken,default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 dp = Dispatcher()
 
-dp.include_router(admin_router)
+# dp.include_router(admin_router)
 dp.include_router(user_router)
 
 
