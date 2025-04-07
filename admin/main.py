@@ -1,20 +1,46 @@
 from aiogram.types import Message
 from aiogram import Router, F
-from aiogram.filters import CommandStart
+from aiogram.filters import CommandStart, Command
 from data.config import admin
 from aiogram.fsm.context import FSMContext
 from state.main import Kinolar
 from database.main import AddFilm
+from database.admin_database import AddAdmins, ReadAdmins
 
 
 admin_router = Router()
+def Adminlar():
+    malumot = []
+    for i in ReadAdmins():
+        malumot.append(i[1])
+    return malumot    
+
+@admin_router.message(Command("admins"))
+async def AdminCommand(message: Message):
+    id = message.from_user.id
+    if id in Adminlar():
+        await message.answer("Qo'shmoqchi bo'lgan admin id yuboring")
 
 
-
-@admin_router.message(CommandStart(), F.from_user.id.in_(admin))
+@admin_router.message(CommandStart())
 async def StartBot(message: Message, state: FSMContext):
-    await message.answer("Assalomu alaykum Admin\nKino nomini kiriting?")
-    await state.set_state(Kinolar.name)
+    id = message.from_user.id
+    if id in Adminlar():
+        await message.answer("Assalomu alaykum Admin\nKino nomini kiriting?")
+        await state.set_state(Kinolar.name)
+
+
+
+
+@admin_router.message(F.text)
+async def AdminAdd(message: Message):
+    id = message.text
+    user_id = message.from_user.id
+    if user_id in Adminlar():
+        AddAdmins(id=int(id))
+        await message.answer("Adminlar xatoriga qo'shildi")
+
+
 
 
 

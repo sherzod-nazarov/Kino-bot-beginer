@@ -2,17 +2,17 @@ from aiogram.types import Message, CallbackQuery
 from aiogram import Router, F, Bot
 from aiogram.filters import CommandStart
 from database.main import ReadFilm, BarchaKinolar
-from filter.filter import CheksupChanel
+# from filter.filter import CheksupChanel
 from buttons.main import KanallarButtons
 
 user_router = Router()
 
 
 
-@user_router.message(CommandStart(), CheksupChanel())
+@user_router.message(CommandStart())
 async def StartBot(message: Message):
     id = message.from_user.id
-    await message.answer("Assalomu alaykum bro", reply_markup=KanallarButtons(id))
+    await message.answer("Assalomu alaykum bro")
     
 
 @user_router.message(F.text)
@@ -29,7 +29,7 @@ async def BotMessage(message: Message, bot: Bot):
         await message.answer("raqam yuboring iltimos")
 
 
-@user_router.callback_query(F.data)
-async def Tekshirish(call: CallbackQuery, bot: Bot):
-    id = call.from_user.id    
-    await call.message.answer("Kanalga obuna bo'ling", reply_markup=KanallarButtons(id))
+# @user_router.callback_query(F.data)
+# async def Tekshirish(call: CallbackQuery, bot: Bot):
+#     id = call.from_user.id    
+#     await call.message.answer("Kanalga obuna bo'ling", reply_markup=KanallarButtons(id))
